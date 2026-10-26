@@ -2,22 +2,63 @@ using UnityEngine;
 
 public class Parallax : MonoBehaviour
 {
-	[SerializeField] float parallaxMutliplier = 0.1f;
-	private Material parallaxMaterial;
-	private float lastPlayerX;
-	[SerializeField] private Transform player;
+	Transform cam;
+	Vector3 camStartPos;
+	float distance;
 
-	void Start()
+	GameObject[] backgrounds;
+	Material[] mat;
+	float[] backSpeed;
+
+	float farthesBack;
+
+	[Range(0.01f, 1f)]
+	public float parallaxSpeed;
+
+	private void Start()
 	{
-		parallaxMaterial = GetComponent<Renderer>().material;
-		lastPlayerX = player.position.x;
+		cam = Camera.main.transform;
+		camStartPos = cam.position;
+
+		int backCount = transform.childCount;
+		mat = new Material[backCount];
+		backSpeed = new float[backCount];
+		backgrounds = new GameObject[backCount];
+
+		for (int i = 0; i < backCount; i++)
+		{
+			backgrounds[i] = transform.GetChild(i).gameObject;
+			mat[i] = backgrounds[i].GetComponent<Renderer>().material;
+		}
+
+		BackSpeedCalculate(backCount);
 	}
 
-	// Update is called once per frame
-	void Update()
+	void BackSpeedCalculate(int backCount)
 	{
-		float deltax = player.position.x - lastPlayerX;
-		parallaxMaterial.mainTextureOffset += new Vector2(deltax * parallaxMutliplier, 0);
-		lastPlayerX = player.position.x;
+		for (int i = 0; i < backCount; i++)
+		{
+			if ((backgrounds[i].transform.position.z - cam.position.z) > farthesBack)
+			{
+				farthesBack = backgrounds[i].transform.position.z - cam.position.z;
+			}
+		}
+
+		for (int i = 0; i < backCount; i++)
+		{
+			backSpeed[i] = 1 - (backgrounds[i].transform.position.z - cam.position.z) / farthesBack;
+		}
+	}
+
+	private void LateUpdate()
+	{
+		distance = cam.position.x - camStartPos.x;
+		transform.position = new Vector3(cam.position.x - 1, transform.position.y, 4);
+
+		for (int i = 0; i < backgrounds.Length; i++)
+		{
+			float speed = backSpeed[i] * parallaxSpeed;
+			mat[i].SetTextureOffset("_MainTex", new Vector2(distance, 0) * speed);
+		}
 	}
 }
