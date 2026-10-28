@@ -3,7 +3,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public Transform objective;
-    public float cameraSpeed = 1.0f;
+    public float cameraSpeed = 0.025f;
     public Vector3 movement;
 
     private void LateUpdate()
