@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class PlayerMove : MonoBehaviour, InputSystem_Actions.IControllerActions
 {
@@ -12,9 +13,9 @@ public class PlayerMove : MonoBehaviour, InputSystem_Actions.IControllerActions
 	private Rigidbody2D rb;
 
 	// Private variables
-	private bool gravityFlipped;
+	private bool isGravityFlipped;
 	private Vector2 moveInput;
-	private float gravityInput;
+	private bool grounded = true;
 
 	// Other
 	private InputSystem_Actions inputActions;
@@ -23,6 +24,7 @@ public class PlayerMove : MonoBehaviour, InputSystem_Actions.IControllerActions
     {
         inputActions = new InputSystem_Actions();
         inputActions.Controller.SetCallbacks(this);
+		rb = GetComponent<Rigidbody2D>();
     }
 
     private void OnEnable()
@@ -37,18 +39,19 @@ public class PlayerMove : MonoBehaviour, InputSystem_Actions.IControllerActions
 
 	void Update()
 	{
-		transform.Translate(moveInput * speed * Time.deltaTime);
+		grounded = IsGrounded();
+
+		//Fix this
+		rb.linearVelocity = new Vector2(rb.linearVelocityX * speed, rb.linearVelocity.y);
 	}
 
 	public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.started)
-        {
-			gravityInput = context.ReadValue<float>();
-			bool grounded = IsGrounded();
-
+		if (context.performed)
+		{
             if (grounded)
             {
+				Debug.Log("Cambio");
 				FlipGravity();
             }
 		}
@@ -63,17 +66,19 @@ public class PlayerMove : MonoBehaviour, InputSystem_Actions.IControllerActions
 
 	public bool IsGrounded()
 	{
-        Vector2 raycastDirection = gravityFlipped ? Vector2.up : Vector2.down;
-		RaycastHit2D hit = Physics2D.Raycast(transform.position, raycastDirection, rayLength, groundLayer);
-		Debug.DrawRay(transform.position, raycastDirection * rayLength, hit.collider != null ? Color.green : Color.red);
+		RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, rayLength, groundLayer);
+		Debug.DrawRay(transform.position, Vector2.down * rayLength, hit.collider != null ? Color.green : Color.red);
 
 		return hit.collider != null;
 	}
 
 	private void FlipGravity()
     {
-        gravityFlipped = !gravityFlipped;
+		float flipAngle = isGravityFlipped? 180f : 0f;
 
-        rb.gravityScale *= gravityFlipped? -1 : 1;
+        isGravityFlipped = !isGravityFlipped;
+
+        rb.gravityScale *= -1;
+		transform.localRotation = Quaternion.Euler(0f, 0f, flipAngle);
     }
 }
