@@ -380,6 +380,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05ec51bf01dbe2b4b86db44ad5aa393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMove
+  rayLength: 0.6
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
   speed: 4
 --- !u!1 &247811640
 GameObject:
@@ -6601,7 +6605,7 @@ GameObject:
   - component: {fileID: 1112079669}
   - component: {fileID: 1112079668}
   - component: {fileID: 1112079667}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9755,7 +9759,7 @@ GameObject:
   - component: {fileID: 1196168603}
   - component: {fileID: 1196168602}
   - component: {fileID: 1196168601}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
