@@ -11,11 +11,15 @@ public class PlayerMove : MonoBehaviour, InputSystem_Actions.IControllerActions
 
 	// GameObject components
 	private Rigidbody2D rb;
+	private SpriteRenderer sr;
+	private Animator anim;
+
 
 	// Private variables
 	private bool isGravityFlipped;
 	private Vector2 moveInput;
-	private bool grounded = true;
+	private bool isGrounded = true;
+	private bool isMoving = false;
 
 	// Other
 	private InputSystem_Actions inputActions;
@@ -25,6 +29,8 @@ public class PlayerMove : MonoBehaviour, InputSystem_Actions.IControllerActions
         inputActions = new InputSystem_Actions();
         inputActions.Controller.SetCallbacks(this);
 		rb = GetComponent<Rigidbody2D>();
+		sr = GetComponent<SpriteRenderer>();
+		anim = GetComponent<Animator>();
     }
 
     private void OnEnable()
@@ -39,18 +45,37 @@ public class PlayerMove : MonoBehaviour, InputSystem_Actions.IControllerActions
 
 	void Update()
 	{
-		grounded = IsGrounded();
+		isGrounded = IsGrounded();
+		isMoving = IsMoving();
 
-
+		anim.SetBool("isMoving", isMoving);
 
 		rb.linearVelocity = new Vector2(moveInput.x * speed, rb.linearVelocity.y);
+
+		if (moveInput.x == -1)
+		{
+			sr.flipX = true;
+		}
+		else if (moveInput.x == 1)
+		{
+			sr.flipX = false;
+		}
+
+		if (isGravityFlipped)
+		{
+			sr.flipY = true;
+		}
+		else
+		{ 
+			sr.flipY= false;
+		}
 	}
 
 	public void OnJump(InputAction.CallbackContext context)
     {
 		if (context.performed)
 		{
-            if (grounded)
+            if (isGrounded)
             {
 				Debug.Log("Cambio");
 				FlipGravity();
@@ -82,7 +107,17 @@ public class PlayerMove : MonoBehaviour, InputSystem_Actions.IControllerActions
 		float flipAngle = isGravityFlipped? 180f : 0f;
 
         rb.gravityScale *= -1;
-		transform.localRotation = Quaternion.Euler(0, 0f, flipAngle);
-		transform.localRotation = Quaternion.Euler(flipAngle, 0f, 0f);
+	}
+
+	private bool IsMoving()
+	{
+		if (moveInput.x != 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 }

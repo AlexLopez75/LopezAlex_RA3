@@ -6478,7 +6478,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: d727795b7df853140bf30cb39dc6760c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -12035,6 +12035,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 1160356261127867848, guid: 1ac64541e3520d84bba268b7d66a4b1c, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 3db9bde5a2da08b42806a8b9b5e00461, type: 2}
     - target: {fileID: 7878350319992209165, guid: 1ac64541e3520d84bba268b7d66a4b1c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -10.180053
