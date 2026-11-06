@@ -41,8 +41,9 @@ public class PlayerMove : MonoBehaviour, InputSystem_Actions.IControllerActions
 	{
 		grounded = IsGrounded();
 
-		//Fix this
-		rb.linearVelocity = new Vector2(rb.linearVelocityX * speed, rb.linearVelocity.y);
+
+
+		rb.linearVelocity = new Vector2(moveInput.x * speed, rb.linearVelocity.y);
 	}
 
 	public void OnJump(InputAction.CallbackContext context)
@@ -66,19 +67,22 @@ public class PlayerMove : MonoBehaviour, InputSystem_Actions.IControllerActions
 
 	public bool IsGrounded()
 	{
-		RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, rayLength, groundLayer);
-		Debug.DrawRay(transform.position, Vector2.down * rayLength, hit.collider != null ? Color.green : Color.red);
+		Vector2 rayDirection = isGravityFlipped? Vector2.up : Vector2.down;
+
+		RaycastHit2D hit = Physics2D.Raycast(transform.position, rayDirection, rayLength, groundLayer);
+		Debug.DrawRay(transform.position, rayDirection * rayLength, hit.collider != null ? Color.green : Color.red);
 
 		return hit.collider != null;
 	}
 
 	private void FlipGravity()
     {
+		isGravityFlipped = !isGravityFlipped;
+
 		float flipAngle = isGravityFlipped? 180f : 0f;
 
-        isGravityFlipped = !isGravityFlipped;
-
         rb.gravityScale *= -1;
-		transform.localRotation = Quaternion.Euler(0f, 0f, flipAngle);
-    }
+		transform.localRotation = Quaternion.Euler(0, 0f, flipAngle);
+		transform.localRotation = Quaternion.Euler(flipAngle, 0f, 0f);
+	}
 }
