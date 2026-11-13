@@ -9,8 +9,9 @@ public class CameraController : MonoBehaviour
     private void LateUpdate()
     {
         Vector3 desiredPosition = objective.position + movement;
+
         Vector3 smoothPosition = Vector3.Lerp(transform.position, desiredPosition, cameraSpeed);
 
         transform.position = smoothPosition;
-    }
+	}
 }
