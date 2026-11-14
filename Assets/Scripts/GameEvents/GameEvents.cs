@@ -3,10 +3,14 @@ using UnityEngine;
 
 public static class GameEvents
 {
-	public static event Action<int> OnPlayerDie;
-
-	public static void PlayerDie(int points)
+	public static event Action OnPlayerDie;
+	public static event Action OnGameOver;
+	public static void PlayerDie()
 	{
-		OnPlayerDie?.Invoke(points);
+		OnPlayerDie?.Invoke();
+	}
+	public static void GameOver()
+	{
+		OnGameOver?.Invoke();
 	}
 }
