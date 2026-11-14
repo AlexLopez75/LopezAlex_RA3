@@ -40,7 +40,7 @@ public class Bullet : MonoBehaviour
         {
             if (!gameObject.activeSelf) return;
             BulletPool.Instance.ReturnBullet(this);
-            GameEvents.PlayerDie();
+            GameEvents.GameOver();
         }
     }
 }

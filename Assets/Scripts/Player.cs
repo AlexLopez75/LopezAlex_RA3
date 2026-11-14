@@ -14,8 +14,7 @@ public class Player : MonoBehaviour
         if (other.CompareTag("Water"))
         {
             sr.enabled = false;
-            Time.timeScale = 0;
-            GameEvents.PlayerDie();
+            GameEvents.GameOver();
         }
     }
 }
