@@ -34,7 +34,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 1ac64541e3520d84bba268b7d66a4b1c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.71
+      value: -1.94
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 1ac64541e3520d84bba268b7d66a4b1c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -180,6 +180,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   speed: 5
+  gravityClip: {fileID: 8300000, guid: d57aaf9d93dd1264c9d721af17621312, type: 3}
 --- !u!114 &33395821501861872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,3 +193,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4db4db67b17e7e944803f6713b09c016, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
+  gameOverClip: {fileID: 8300000, guid: c9765e5ba27b70f43b5be67a8d71fc85, type: 3}
