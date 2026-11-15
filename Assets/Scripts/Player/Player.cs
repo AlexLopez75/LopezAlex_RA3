@@ -20,4 +20,14 @@ public class Player : MonoBehaviour
             SoundManager.Instance.PlaySound(SoundManager.Instance.gameOver);
         }
     }
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Water"))
+        {
+            sr.enabled = false;
+            GameEvents.GameOver();
+            SoundManager.Instance.PlaySound(SoundManager.Instance.gameOver);
+        }
+    }
 }
