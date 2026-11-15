@@ -6,8 +6,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    [SerializeField] private GameObject gameOverPanel;
-
     public bool IsGameOver { get; private set; }
 
     private void Awake()
@@ -23,7 +21,11 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         IsGameOver = false;
-        gameOverPanel.gameObject.SetActive(false);
+    }
+
+    public void ChangeTo(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
     }
 
     public void RestartGame()
