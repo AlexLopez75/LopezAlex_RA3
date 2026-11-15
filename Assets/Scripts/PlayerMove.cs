@@ -8,6 +8,7 @@ public class PlayerMove : MonoBehaviour, InputSystem_Actions.IControllerActions
 	[SerializeField] private float rayLength = 0.6f;
 	[SerializeField] private LayerMask groundLayer;
 	[SerializeField] private float speed;
+	[SerializeField] private PauseManager pauseManager;
 
 	// GameObject components
 	private Rigidbody2D rb;
@@ -20,6 +21,7 @@ public class PlayerMove : MonoBehaviour, InputSystem_Actions.IControllerActions
 	private Vector2 moveInput;
 	private bool isGrounded = true;
 	private bool isMoving = false;
+	private bool isPaused = false;
 
 	// Other
 	private InputSystem_Actions inputActions;
@@ -89,6 +91,25 @@ public class PlayerMove : MonoBehaviour, InputSystem_Actions.IControllerActions
 
 		if (!context.performed) return;
 	}
+
+	public void OnPause(InputAction.CallbackContext context)
+	{
+        if (context.performed)
+        {
+            if (!isPaused)
+            {
+                Debug.Log("Pause");
+				pauseManager.OpenPause();
+				isPaused = true;
+            }
+			else
+			{
+                Debug.Log("Unpause");
+                pauseManager.ClosePause();
+				isPaused = false;
+			}
+        }
+    }
 
 	public bool IsGrounded()
 	{
