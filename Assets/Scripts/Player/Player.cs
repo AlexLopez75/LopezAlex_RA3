@@ -4,11 +4,12 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private SpriteRenderer sr;
-    [SerializeField] private AudioClip gameOverClip;
+    private PlayerMove pm;
 
     void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
+        pm = FindAnyObjectByType<PlayerMove>();
     }
 
     public void OnTriggerEnter2D(Collider2D other)
@@ -16,8 +17,17 @@ public class Player : MonoBehaviour
         if (other.CompareTag("Water"))
         {
             sr.enabled = false;
+            pm.enabled = false;
             GameEvents.GameOver();
+            SoundManager.Instance.StopMusic();
             SoundManager.Instance.PlaySound(SoundManager.Instance.gameOver);
+        }
+        else if (other.CompareTag("Exit"))
+        {
+            pm.enabled = false;
+            GameEvents.GameOver();
+            SoundManager.Instance.StopMusic();
+            SoundManager.Instance.PlaySound(SoundManager.Instance.playerWin);
         }
     }
 
@@ -26,7 +36,9 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("Water"))
         {
             sr.enabled = false;
+            pm.enabled = false;
             GameEvents.GameOver();
+            SoundManager.Instance.StopMusic();
             SoundManager.Instance.PlaySound(SoundManager.Instance.gameOver);
         }
     }

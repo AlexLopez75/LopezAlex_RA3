@@ -4,6 +4,7 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance = null;
     private AudioSource soundEffectAudio;
+    private AudioSource musicAudio;
 
     [SerializeField] public AudioClip gravityFlìp;
     [SerializeField] public AudioClip gameOver;
@@ -26,7 +27,11 @@ public class SoundManager : MonoBehaviour
         AudioSource[] sources = GetComponents<AudioSource>();
         foreach (AudioSource source in sources)
         {
-            if (source.clip == null)
+            if (source.clip != null)
+            {
+                musicAudio = source;
+            }
+            else if (soundEffectAudio == null)
             {
                 soundEffectAudio = source;
             }
@@ -36,5 +41,20 @@ public class SoundManager : MonoBehaviour
     public void PlaySound(AudioClip clip)
     {
         soundEffectAudio.PlayOneShot(clip);
+    }
+
+    public void StopMusic()
+    {
+        musicAudio.Stop();
+    }
+
+    public void PauseMusic()
+    {
+        musicAudio.Pause();
+    }
+
+    public void ResumeMusic()
+    {
+        musicAudio.UnPause();
     }
 }

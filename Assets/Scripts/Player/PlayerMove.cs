@@ -1,7 +1,5 @@
 using UnityEngine;
-using UnityEngine.Audio;
 using UnityEngine.InputSystem;
-using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class PlayerMove : MonoBehaviour, InputSystem_Actions.IControllerActions
 {
@@ -102,12 +100,12 @@ public class PlayerMove : MonoBehaviour, InputSystem_Actions.IControllerActions
 				PauseManager.Instance.OpenPause();
 				isPaused = true;
             }
-			else
+            else
 			{
                 Debug.Log("Unpause");
                 PauseManager.Instance.ClosePause();
-				isPaused = false;
-			}
+                isPaused = false;
+            }
         }
     }
 

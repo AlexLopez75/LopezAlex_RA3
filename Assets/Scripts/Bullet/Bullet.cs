@@ -1,6 +1,5 @@
 using UnityEngine;
 
-
 [RequireComponent(typeof(Rigidbody2D))]
 public class Bullet : MonoBehaviour
 {
@@ -9,10 +8,14 @@ public class Bullet : MonoBehaviour
 
     private float lifeTimer;
     private Rigidbody2D rb;
+    private SpriteRenderer sr;
+    private PlayerMove pm;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
+        pm = FindAnyObjectByType<PlayerMove>();
     }
 
     public void Init()
@@ -37,9 +40,11 @@ public class Bullet : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-            if (!gameObject.activeSelf) return;
+            sr.enabled = false;
+            pm.enabled = false;
             GameEvents.GameOver();
             BulletPool.Instance.ReturnBullet(this);
+            SoundManager.Instance.StopMusic();
             SoundManager.Instance.PlaySound(gameOverClip);
         }
     }
