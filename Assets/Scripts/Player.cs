@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     private SpriteRenderer sr;
+    [SerializeField] private AudioClip gameOverClip;
 
     void Awake()
     {
@@ -15,6 +17,7 @@ public class Player : MonoBehaviour
         {
             sr.enabled = false;
             GameEvents.GameOver();
+            SoundManager.Instance.PlaySound(SoundManager.Instance.gameOver);
         }
     }
 }

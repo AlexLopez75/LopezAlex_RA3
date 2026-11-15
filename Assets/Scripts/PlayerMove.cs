@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
@@ -8,16 +9,15 @@ public class PlayerMove : MonoBehaviour, InputSystem_Actions.IControllerActions
 	[SerializeField] private float rayLength = 0.6f;
 	[SerializeField] private LayerMask groundLayer;
 	[SerializeField] private float speed;
-	[SerializeField] private PauseManager pauseManager;
+	[SerializeField] private AudioClip gravityClip;
 
 	// GameObject components
 	private Rigidbody2D rb;
 	private SpriteRenderer sr;
 	private Animator anim;
 
-
-	// Private variables
-	private bool isGravityFlipped;
+    // Private variables
+    private bool isGravityFlipped;
 	private Vector2 moveInput;
 	private bool isGrounded = true;
 	private bool isMoving = false;
@@ -99,13 +99,13 @@ public class PlayerMove : MonoBehaviour, InputSystem_Actions.IControllerActions
             if (!isPaused)
             {
                 Debug.Log("Pause");
-				pauseManager.OpenPause();
+				PauseManager.Instance.OpenPause();
 				isPaused = true;
             }
 			else
 			{
                 Debug.Log("Unpause");
-                pauseManager.ClosePause();
+                PauseManager.Instance.ClosePause();
 				isPaused = false;
 			}
         }
@@ -128,6 +128,8 @@ public class PlayerMove : MonoBehaviour, InputSystem_Actions.IControllerActions
 		float flipAngle = isGravityFlipped? 180f : 0f;
 
         rb.gravityScale *= -1;
+
+		SoundManager.Instance.PlaySound(gravityClip);
 	}
 
 	private bool IsMoving()

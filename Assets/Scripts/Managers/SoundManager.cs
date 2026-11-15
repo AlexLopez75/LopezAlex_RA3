@@ -8,6 +8,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] public AudioClip gravityFlìp;
     [SerializeField] public AudioClip gameOver;
     [SerializeField] public AudioClip playerWin;
+    [SerializeField] public AudioClip pauseGame;
 
 
     private void Awake()
@@ -32,4 +33,8 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    public void PlaySound(AudioClip clip)
+    {
+        soundEffectAudio.PlayOneShot(clip);
+    }
 }
